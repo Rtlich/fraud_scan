@@ -1,0 +1,12 @@
+user_id,signup_date,country,email
+U30001,2023-02-11,FR,camille.roy@example.com
+U30002,2022-09-03,FR,yanis.morel@example.net
+U30003,2024-05-20,BE,ines.faure@example.org
+U30004,2023-11-30,FR,theo.lambert@example.com
+U30010,2025-08-14,FR,sarah.colin@example.com
+U30011,2025-12-02,FR,max.picard@example.net
+U30012,2025-10-09,FR,lou.marchand@example.org
+U30013,2021-06-25,FR,adam.renaud+loopa@example.com
+U30014,2025-07-07,ES,jade.lucas@example.com
+U30015,2024-03-15,FR,noah.brun@example.com
+U30016,2023-01-08,FR,emma.gilles@example.net

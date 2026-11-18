@@ -1,0 +1,16 @@
+listing_id,seller_id,created_at,title,category_id,brand,listed_price,photo_hash,description
+L900001,U30001,2026-04-28 10:00:00,Robe portefeuille,womenswear,,24.00,bb0000000001,Robe portefeuille en bon état. Envoi soigné sous 48 h.
+L900002,U30002,2026-04-29 11:00:00,Casque audio,electronics,,95.00,bb0000000002,"Casque audio en très bon état, rien à signaler."
+L900003,U30003,2026-04-30 09:30:00,Baskets de running,shoes,,48.00,bb0000000003,Baskets de running en bon état.
+L900004,U30004,2026-05-01 18:00:00,Pull en laine,womenswear,,30.00,bb0000000004,Pull en laine en très bon état.
+L900005,U30001,2026-05-02 08:15:00,Jean taille haute,womenswear,,28.00,bb0000000005,"Jean taille haute, porté peu de fois."
+L900006,U30002,2026-05-02 12:00:00,Liseuse,electronics,,85.00,bb0000000006,Liseuse en bon état. Prix ferme.
+L900007,U30003,2026-05-03 14:00:00,Lot de bodies,kids,,14.00,bb0000000007,Lot de bodies en bon état.
+L900008,U30004,2026-05-03 16:00:00,Service à thé,home,,35.00,bb0000000008,Service à thé en très bon état.
+L900009,U30004,2026-05-03 16:10:00,Vase en grès,home,,26.00,bb0000000009,Vase en grès en bon état.
+L900010,U30004,2026-05-03 16:20:00,Miroir rond,home,,40.00,bb0000000010,Miroir rond en bon état.
+L900011,U30001,2026-05-04 09:00:00,Chemisier en lin,womenswear,,22.00,bb0000000011,Chemisier en lin en bon état.
+L900012,U30002,2026-05-04 10:00:00,Manette sans fil,video_games,,32.00,bb0000000012,Manette sans fil en bon état.
+L900013,U30015,2026-05-05 19:00:00,Veste en jean,menswear,,38.00,bb0000000013,"Veste en jean en bon état. Paiement via Lydia, écrivez-moi."
+L900014,U30016,2026-05-06 09:00:00,Roman poche,books,,6.00,bb0000000014,Roman poche en bon état.
+L900015,U30016,2026-05-06 09:30:00,BD cartonnée,books,,12.00,bb0000000015,BD cartonnée en très bon état.

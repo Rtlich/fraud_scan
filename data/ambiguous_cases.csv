@@ -1,0 +1,13 @@
+case_id,datetime,type,seller_id,buyer_id,seller_signup_date,title,category_id,amount,description,context
+A01,2026-06-12 14:05:00,order,U20001,U20101,2023-04-02,Sac cabas en cuir Maison Verlaine,luxury_bags,180.00,"Sac cabas en cuir Maison Verlaine en état correct, quelques traces d'usage.",Prix exactement égal à 20 % du prix de référence (900 €)
+A02,2026-06-12 19:34:00,order,U20002,U20102,2026-06-07,Smartphone reconditionné,electronics,310.00,"Smartphone reconditionné en très bon état. Je déménage à l'étranger, je vends tout.",Compte créé il y a 5 jours ; 3 autres annonces d'électroménager
+A03,2026-06-13 11:00:00,refund,U20003,U20103,2024-01-15,Robe portefeuille,womenswear,24.00,,"3e remboursement de cet·te acheteur·se, mais 9 jours après le 1er"
+A04,2026-06-13 15:10:00,order,U20004,U20104,2025-02-20,Bottines en cuir,shoes,45.00,"Bottines en cuir en bon état. Mesures sur demande en message privé.",
+A05,2026-06-13 16:00:00,order,U20005,U20105,2024-08-01,Blazer oversize,womenswear,30.00,"Blazer oversize en très bon état. Plus de photos sur mon insta : @vintage_lea",
+A06,2026-06-14 10:30:00,order,U20006,U20106,2022-05-10,Lampe de chevet,home,-25.00,"Lampe de chevet en bon état, envoi en point relais.",Montant négatif sur une commande
+A07,2026-06-14 10:40:00,order,U20007,U20107,2025-11-02,Sneakers montantes édition limitée Kairo Studio,designer_sneakers,390.00,Sneakers montantes édition limitée Kairo Studio neuf avec étiquette. Photo officielle de la marque.,"Même photo que 14 annonces d'autres vendeur·ses : c'est la photo du site de la marque"
+A08,2026-06-14 11:00:00,order,U20008,U20108,2021-09-14,Lot de t-shirts 8 ans,kids,12.00,"Lot de t-shirts 8 ans en bon état, envoi en point relais.",Ce·tte vendeur·se a fait 180 ventes en 30 jours
+A09,2026-06-15 12:00:00,order,U20009,U20009,2024-03-03,Montre vintage plaqué or Lucerna,watches,520.00,"Montre vintage plaqué or Lucerna en très bon état, avec sa boîte et sa facture.",L'acheteur·se et le·la vendeur·se ont le même user_id
+A10,2026-06-15 18:20:00,refund,U20010,U20110,2023-12-12,Casque audio,electronics,129.00,,Remboursement de 129 € pour une commande de 89 €
+A11,2026-06-16 09:15:00,order,U20011,U20111,2025-05-05,Vase en grès,home,28.00,"Vase en grès en très bon état. Je préfère un paiement via Lydia, écrivez-moi.",
+A12,2026-06-16 18:00:00,order,U20012,,2024-10-10,Jeu d'aventure,video_games,,"Jeu d'aventure en bon état. Prix ferme.",Montant et acheteur·se manquants

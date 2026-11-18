@@ -1,0 +1,12 @@
+category_id,label,reference_price,luxury
+womenswear,Vêtements femme,22.00,no
+menswear,Vêtements homme,25.00,no
+kids,Enfants,12.00,no
+shoes,Chaussures,40.00,no
+books,Livres,7.00,no
+video_games,Jeux vidéo,28.00,no
+home,Maison,30.00,no
+electronics,Électronique,160.00,no
+luxury_bags,Sacs de créateur,900.00,yes
+watches,Montres,650.00,yes
+designer_sneakers,Sneakers de créateur,420.00,yes

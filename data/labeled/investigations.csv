@@ -1,0 +1,29 @@
+transaction_id,confirmed_fraud,investigation_note
+T900001,no,
+T900002,no,
+T900003,no,
+T900004,no,
+T900005,no,
+T900006,no,
+T900007,no,
+T900008,no,
+T900009,no,
+T900010,no,
+T900011,no,
+T900012,no,
+T900013,yes,Paiement hors appli confirmé : la règle 6 ne connaît pas le mot « Lydia ».
+T900014,no,
+T900015,no,"Montant manquant : donnée à compléter, pas une fraude."
+T900016,yes,Commande inexistante : remboursement frauduleux.
+T900017,yes,Aucune commande associée : remboursement frauduleux.
+T900018,yes,Commande inexistante : remboursement frauduleux.
+T900019,no,"Commande passée en mars, avant le début de l’export : remboursement légitime."
+T900020,yes,Colis livré et signé : faux « non reçu ».
+T900021,yes,Colis livré et signé : faux « non reçu ».
+T900022,yes,Colis livré et signé : faux « non reçu ».
+T900023,no,"Lot abîmé par le transporteur, constaté par le service client : légitime."
+T900024,no,"Lot abîmé par le transporteur, constaté par le service client : légitime."
+T900025,no,"Lot abîmé par le transporteur, constaté par le service client : légitime."
+T900026,yes,"Colis livré et signé : faux « non reçu », sous le seuil de la règle 2."
+T900027,yes,"Colis livré et signé : faux « non reçu », sous le seuil de la règle 2."
+T900028,no,"Article abîmé, photo à l’appui : légitime."
