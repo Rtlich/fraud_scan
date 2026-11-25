@@ -3,16 +3,40 @@
 Each rule takes the clean, joined DataFrame and returns the set of suspicious
 transaction_id. The business rules are described in docs/business_rules.md.
 """
+import pandas as pd
 
 
 def refund_without_order(df):
     """Rule 1: a refund whose order_id matches no order."""
-    raise NotImplementedError
+    order_ids = set(df.loc[df["type"].eq("order"), "order_id"].dropna())
+    refunds = df.loc[df["type"].eq("refund")]
+    missing_order_id = refunds["order_id"].isna() | refunds["order_id"].astype(str).str.strip().eq("")
+    unmatched_order_id = ~refunds["order_id"].isin(order_ids)
+    return set(refunds.loc[missing_order_id | unmatched_order_id, "transaction_id"].dropna())
 
 
 def repeated_refunds(df):
     """Rule 2: the same buyer refunded at least 3 times within 7 days."""
-    raise NotImplementedError
+    refunds = df.loc[
+        df["type"].eq("refund")
+        & df["buyer_id"].notna()
+        & df["datetime"].notna()
+    ].copy()
+    refunds = refunds.loc[refunds["buyer_id"].astype(str).str.strip().ne("")]
+    refunds = refunds.sort_values("datetime")
+
+    flagged = set()
+    window = pd.Timedelta(days=7)
+    for _, buyer_refunds in refunds.groupby("buyer_id", sort=False):
+        transaction_ids = buyer_refunds["transaction_id"].tolist()
+        datetimes = buyer_refunds["datetime"].tolist()
+        start = 0
+        for end, current_datetime in enumerate(datetimes):
+            while current_datetime - datetimes[start] > window:
+                start += 1
+            if end - start + 1 >= 3:
+                flagged.update(transaction_ids[start : end + 1])
+    return flagged
 
 
 def new_seller_high_value(df):

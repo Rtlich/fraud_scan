@@ -1,18 +1,36 @@
-"""Load and clean the Loopa exports, then join them into one DataFrame.
-
-This loader is given partly working, so that you can start with the rules.
-It still has gaps, marked TODO: find them with the agent, then fix them
-(the reference tests in tests/test_reference.py tell you when it works).
-"""
+"""Load and clean the Loopa exports, then join them for fraud detection."""
 import pandas as pd
 
-# TODO: the export uses a third date format that is not handled yet.
-DATE_FORMATS = ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S"]
+DATE_FORMATS = [
+    "%Y-%m-%d %H:%M:%S",
+    "%Y-%m-%dT%H:%M:%S",
+    "%d/%m/%Y %H:%M",
+]
+
+
+def _normalize_identifier(value):
+    """Trim an identifier and normalize its case, keeping missing values absent."""
+    if value is None or pd.isna(value):
+        return None
+    text = str(value).strip()
+    return text.upper() if text else None
+
+
+def _normalize_email(email):
+    """Return a case-insensitive email identity without its optional +alias."""
+    if email is None or pd.isna(email):
+        return None
+    text = str(email).strip().casefold()
+    local, separator, domain = text.partition("@")
+    if not separator or not domain:
+        return None
+    local = local.partition("+")[0]
+    return f"{local}@{domain}" if local else None
 
 
 def parse_amount(value):
     """Convert '12,50', '12.50' or '' to a float (None when missing)."""
-    if value is None or (isinstance(value, float) and pd.isna(value)):
+    if value is None or pd.isna(value):
         return None
     text = str(value).strip().replace(",", ".")
     return float(text) if text else None
@@ -20,7 +38,11 @@ def parse_amount(value):
 
 def parse_datetime(value):
     """Parse the date formats listed in DATE_FORMATS (NaT when no format matches)."""
+    if value is None or pd.isna(value):
+        return pd.NaT
     text = str(value).strip()
+    if not text:
+        return pd.NaT
     for fmt in DATE_FORMATS:
         try:
             return pd.to_datetime(text, format=fmt)
@@ -37,13 +59,17 @@ def load_transactions(path):
     df["type"] = df["type"].str.strip().str.lower()
     for col in ["order_id", "listing_id", "seller_id", "buyer_id", "refund_reason"]:
         df[col] = df[col].str.strip().replace("", None)
-    # TODO: seller_id is sometimes written in lower case (u00012): the joins with users.csv miss these rows.
+    for col in ["order_id", "listing_id", "seller_id", "buyer_id"]:
+        df[col] = df[col].map(_normalize_identifier)
     return df
 
 
 def load_listings(path):
     """Read listings.csv (one line per listing, sold or not)."""
     listings = pd.read_csv(path, dtype=str, keep_default_na=False)
+    for col in ["listing_id", "seller_id"]:
+        listings[col] = listings[col].map(_normalize_identifier)
+    listings["category_id"] = listings["category_id"].str.strip().str.lower()
     listings["created_at"] = pd.to_datetime(listings["created_at"])
     listings["listed_price"] = listings["listed_price"].astype(float)
     return listings
@@ -51,29 +77,45 @@ def load_listings(path):
 
 def load_users(path):
     """Read users.csv (signup date, country and e-mail of every account)."""
-    users = pd.read_csv(path, dtype=str)
+    users = pd.read_csv(path, dtype=str, keep_default_na=False)
+    users["user_id"] = users["user_id"].map(_normalize_identifier)
     users["signup_date"] = pd.to_datetime(users["signup_date"])
-    # TODO (rule 7): the same person can hide behind an alias (name+tag@domain) or capital letters.
+    users["email_key"] = users["email"].map(_normalize_email)
     return users
 
 
 def load_categories(path):
     """Read categories.csv (reference price and luxury flag per category)."""
-    categories = pd.read_csv(path, dtype=str)
+    categories = pd.read_csv(path, dtype=str, keep_default_na=False)
+    categories["category_id"] = categories["category_id"].str.strip().str.lower()
     categories["reference_price"] = categories["reference_price"].astype(float)
-    categories["luxury"] = categories["luxury"].eq("yes")
+    categories["luxury"] = categories["luxury"].str.strip().str.lower().eq("yes")
     return categories
 
 
 def load_all(folder="data"):
-    """Return (df, listings): every transaction joined with its listing, seller and category."""
+    """Return transactions enriched with listing, seller, buyer, and category data."""
     tx = load_transactions(f"{folder}/transactions.csv")
     listings = load_listings(f"{folder}/listings.csv")
     users = load_users(f"{folder}/users.csv")
     categories = load_categories(f"{folder}/categories.csv")
+
+    seller_users = users[["user_id", "signup_date", "email_key"]].rename(
+        columns={
+            "user_id": "seller_id",
+            "signup_date": "seller_signup_date",
+            "email_key": "seller_email_key",
+        }
+    )
+    buyer_users = users[["user_id", "signup_date", "email_key"]].rename(
+        columns={
+            "user_id": "buyer_id",
+            "signup_date": "buyer_signup_date",
+            "email_key": "buyer_email_key",
+        }
+    )
     df = (tx.merge(listings.drop(columns="seller_id"), on="listing_id", how="left")
-            .merge(users[["user_id", "signup_date"]].rename(columns={"user_id": "seller_id", "signup_date": "seller_signup_date"}),
-                   on="seller_id", how="left")
+            .merge(seller_users, on="seller_id", how="left")
+            .merge(buyer_users, on="buyer_id", how="left")
             .merge(categories[["category_id", "reference_price", "luxury"]], on="category_id", how="left"))
-    # TODO (rule 7): also join the buyer's account, to compare buyer and seller.
     return df, listings
